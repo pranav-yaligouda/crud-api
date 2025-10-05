@@ -7,5 +7,7 @@ if(process.env.NODE_ENV !== 'production') {
 export const {
     NODE_ENV,
     PORT,
-    MONGODB_URI
+    MONGODB_URI,
+    JWT_SECRET,
+    JWT_EXPIRES_IN
 } = process.env;
