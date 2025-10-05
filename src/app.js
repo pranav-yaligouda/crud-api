@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from 'cookie-parser'
 import { NODE_ENV, PORT } from "./config/envconfig.js";
 import ConnectToDatabase from "./database/connectDb.js";
 import errorMiddleware  from "./middlewares/error.middleware.js";
@@ -6,6 +7,11 @@ import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
 
 const app = express();
+
+// Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser);
 
 app.get('/', (req, res) => {
   res.status(200).send('Welcome to CRUD API');
