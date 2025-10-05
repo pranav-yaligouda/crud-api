@@ -6,5 +6,6 @@ if(process.env.NODE_ENV !== 'production') {
 
 export const {
     NODE_ENV,
-    PORT
+    PORT,
+    MONGODB_URI
 } = process.env;
