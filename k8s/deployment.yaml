@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crud-api
+  labels:
+    app: crud-api
+spec:
+  replicas: 3   # 3 pods to ensure high availability
+  selector:
+    matchLabels:
+      app: crud-api
+  template:
+    metadata:
+      labels:
+        app: crud-api
+    spec:
+      containers:
+        - name: crud-api
+          image: pranavyaligouda/crud-api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: crud-api-config # Reference to ConfigMap for non-sensitive env vars
+            - secretRef:
+                name: crud-api-secret # Reference to Secret for sensitive env vars
+          readinessProbe: # Checks if app is ready to serve traffic
+            httpGet:
+              path: /api/v1/health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe: # Checks if app is alive; restarts if unhealthy
+            httpGet:
+              path: /api/v1/health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources: # Resource requests/limits for reliability and scaling
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+      restartPolicy: Always

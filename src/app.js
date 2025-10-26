@@ -15,7 +15,11 @@ app.use(cookieParser());
 
 app.get('/', (req, res) => {
   res.status(200).send('Welcome to CRUD API');
-})
+});
+
+app.get('/api/v1/health', (req, res) => {
+  res.status(200).json({ status: 'ok', uptime: process.uptime()})
+});
 
 app.get('/api/v1/health', (req, res) => {
   res.status(200).json({ status: 'ok', uptime: process.uptime()});
