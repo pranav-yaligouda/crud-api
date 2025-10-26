@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: crud-api-ingress
+  labels:
+    app: crud-api
+  annotations:
+    # If using NGINX ingress controller, these can help with proxying and timeouts
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
+spec:
+  # If you don't have a DNS name yet, you can omit 'host' and use the cluster IP / NodePort directly.
+  rules:
+    - host: yourdomain.example.com # replace with actual domain or remove host block
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: crud-api
+                port:
+                  number: 80
+

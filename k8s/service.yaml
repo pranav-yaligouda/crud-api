@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: crud-api
+  labels:
+    app: crud-api
+spec:
+  type: NodePort # NodePort for exposing on a vm; LoadBalancer if on managed cloud k8s
+  selector:
+    app: crud-api
+  ports:
+    - protocol: TCP
+      port: 80 # Exposed port on the service
+      targetPort: 5000 # Port app listens on in the continer
+      nodePort: 30080 # Optional: fixed NodePort (range 30000-32767), or omit for random
